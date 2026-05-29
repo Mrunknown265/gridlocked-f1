@@ -20,7 +20,11 @@
 }
 
 body {
-  background: var(--background);
+  background: #03040c;
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
 }
+
+/* Optional: slightly larger hero on very small phones when supported */
+@custom-variant xs (@media (min-width: 390px));
