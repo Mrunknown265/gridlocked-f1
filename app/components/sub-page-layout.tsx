@@ -6,6 +6,7 @@ type SubPageLayoutProps = {
   title: string;
   gradientId: string;
   wide?: boolean;
+  maxWidth?: string;
   children: React.ReactNode;
 };
 
@@ -14,6 +15,7 @@ export function SubPageLayout({
   title,
   gradientId,
   wide = false,
+  maxWidth,
   children,
 }: SubPageLayoutProps) {
   return (
@@ -23,7 +25,7 @@ export function SubPageLayout({
 
       <section className="relative z-10 flex flex-1 flex-col px-4 py-10 sm:px-6 sm:py-14 md:px-10 md:py-16 lg:px-14 lg:py-20">
         <div
-          className={`mx-auto w-full ${wide ? "max-w-4xl" : "max-w-3xl"}`}
+          className={`mx-auto w-full ${maxWidth ?? (wide ? "max-w-4xl" : "max-w-3xl")}`}
         >
           <p className="text-[0.65rem] font-medium uppercase tracking-[0.28em] text-violet-400/90 sm:text-xs">
             {eyebrow}
