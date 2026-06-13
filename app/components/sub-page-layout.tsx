@@ -5,6 +5,7 @@ type SubPageLayoutProps = {
   eyebrow: string;
   title: string;
   gradientId: string;
+  wide?: boolean;
   children: React.ReactNode;
 };
 
@@ -12,6 +13,7 @@ export function SubPageLayout({
   eyebrow,
   title,
   gradientId,
+  wide = false,
   children,
 }: SubPageLayoutProps) {
   return (
@@ -20,7 +22,9 @@ export function SubPageLayout({
       <SiteHeader />
 
       <section className="relative z-10 flex flex-1 flex-col px-4 py-10 sm:px-6 sm:py-14 md:px-10 md:py-16 lg:px-14 lg:py-20">
-        <div className="mx-auto w-full max-w-3xl">
+        <div
+          className={`mx-auto w-full ${wide ? "max-w-4xl" : "max-w-3xl"}`}
+        >
           <p className="text-[0.65rem] font-medium uppercase tracking-[0.28em] text-violet-400/90 sm:text-xs">
             {eyebrow}
           </p>

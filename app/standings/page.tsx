@@ -1,20 +1,39 @@
+import { DriverStandingsList } from "../components/driver-standings-list";
 import { SubPageLayout } from "../components/sub-page-layout";
+import {
+  CURRENT_STANDINGS_SEASON,
+  getDriverStandings,
+} from "../../lib/f1/fetch-standings";
 
-export default function StandingsPage() {
+/** Refresh cached standings hourly (updates after each race weekend). */
+export const revalidate = 3600;
+
+export default async function StandingsPage() {
+  const { standings, meta, error } = await getDriverStandings(
+    CURRENT_STANDINGS_SEASON,
+  );
+
   return (
     <SubPageLayout
       eyebrow="Standings"
-      title="Standings"
+      title="Driver Standings"
       gradientId="standings-streak-gradient"
+      wide
     >
-      <div className="mt-8 rounded-xl border border-violet-500/25 bg-[#08051a]/70 p-8 shadow-[0_0_48px_rgba(124,58,237,0.15),inset_0_1px_0_rgba(196,181,253,0.08)] backdrop-blur-sm sm:mt-10 sm:p-12">
-        <p className="text-center text-2xl font-bold italic tracking-[0.12em] text-white/50 transition-colors duration-300 sm:text-4xl md:text-5xl [font-family:var(--font-orbitron)]">
-          COMING SOON
-        </p>
-        <p className="mt-4 text-center text-sm leading-relaxed text-zinc-400 sm:text-base">
-          Driver and constructor championship tables are on the way.
-        </p>
-      </div>
+      {error ? (
+        <div className="mt-8 rounded-xl border border-red-500/30 bg-[#08051a]/70 p-8 text-center sm:mt-10">
+          <p className="text-sm text-red-300 sm:text-base">{error}</p>
+        </div>
+      ) : meta && standings.length > 0 ? (
+        <DriverStandingsList standings={standings} meta={meta} />
+      ) : (
+        <div className="mt-8 rounded-xl border border-violet-500/25 bg-[#08051a]/70 p-8 text-center sm:mt-10">
+          <p className="text-sm text-zinc-400 sm:text-base">
+            No standings data available yet for the {CURRENT_STANDINGS_SEASON}{" "}
+            season.
+          </p>
+        </div>
+      )}
     </SubPageLayout>
   );
 }
